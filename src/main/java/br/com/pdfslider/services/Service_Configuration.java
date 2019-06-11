@@ -125,7 +125,7 @@ public class Service_Configuration {
      */
     public void selecionarPastaArquivos(Form_Configuration form) {
         try {
-            form.getTxtPastaArquivo().setText(Utilidades.selecionadorArquivos(form, "Selecionar Pasta", JFileChooser.DIRECTORIES_ONLY, "jpg", "jpeg", "gif"));
+            form.getTxtPastaArquivo().setText(Utilidades.selecionadorArquivos(form, "Selecionar", JFileChooser.FILES_AND_DIRECTORIES, "pdf"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

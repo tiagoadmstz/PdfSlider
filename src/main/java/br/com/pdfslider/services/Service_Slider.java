@@ -52,7 +52,11 @@ public final class Service_Slider {
         List<String> lista = new ArrayList();
         try {
             File dir = new File(Utilidades.getConfiguration().get("arquivos"));
-            Arrays.asList(dir.listFiles(new PdfFilter())).forEach(f -> lista.add(f.getPath()));
+            if (dir.isDirectory()) {
+                Arrays.asList(dir.listFiles(new PdfFilter())).forEach(f -> lista.add(f.getPath()));
+            } else {
+                lista.add(dir.getPath());
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
