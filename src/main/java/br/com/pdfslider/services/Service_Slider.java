@@ -5,9 +5,6 @@
  */
 package br.com.pdfslider.services;
 
-import br.com.pdfslider.enumerated.MESSAGE;
-import br.com.pdfslider.frames.Form_Slider;
-import br.com.pdfslider.util.MessageFactory;
 import br.com.pdfslider.util.PdfFilter;
 import br.com.pdfslider.util.TimeUtil;
 import br.com.pdfslider.util.Utilidades;
@@ -127,25 +124,33 @@ public final class Service_Slider {
             @Override
             public void run() {
                 try {
-                    while (continuar) {
-                        for (String path : paths) {
-                            paginas.clear();
-                            paginas.addAll(pdfPagesToImages(path));
-                            setLbPaginas(lbPaginas, "0", String.valueOf(paginas.size()));
-                            Thread t = passarPagina(label, lbPaginas, paginas, TimeUtil.stringToMillis(Utilidades.getConfiguration().get("tempoPagina")));
-                            sistemas.put("passarPaginas", t);
-                            t.start();
-                            Thread.sleep(tempoArquivo);
-                            label.setIcon(null);
-                            setLbPaginas(lbPaginas, String.valueOf(0), String.valueOf(0));
-                            t.interrupt();
+                    if (continuar) {
+                        while (continuar) {
+                            loopArquivos(label, lbPaginas, paths, tempoArquivo);
                         }
+                    } else {
+                        loopArquivos(label, lbPaginas, paths, tempoArquivo);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         });
+    }
+
+    private void loopArquivos(JLabel label, JLabel lbPaginas, List<String> paths, long tempoArquivo) throws Exception {
+        for (String path : paths) {
+            paginas.clear();
+            paginas.addAll(pdfPagesToImages(path));
+            setLbPaginas(lbPaginas, "0", String.valueOf(paginas.size()));
+            Thread t = passarPagina(label, lbPaginas, paginas, TimeUtil.stringToMillis(Utilidades.getConfiguration().get("tempoPagina")));
+            sistemas.put("passarPaginas", t);
+            t.start();
+            Thread.sleep(tempoArquivo);
+            label.setIcon(null);
+            setLbPaginas(lbPaginas, String.valueOf(0), String.valueOf(0));
+            t.interrupt();
+        }
     }
 
     public void setLbPaginas(JLabel lbPaginas, String paginaAtual, String totalPaginas) {
