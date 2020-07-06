@@ -6,6 +6,8 @@
 package br.com.pdfslider.util;
 
 import br.com.pdfslider.enumerated.LOOKANDFEEL;
+import br.com.pdfslider.models.Configuration;
+import com.google.gson.Gson;
 import org.apache.commons.io.IOUtils;
 
 import javax.swing.*;
@@ -13,8 +15,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Classe que contém métodos utilizados por todo sistema
@@ -39,39 +39,16 @@ public class Utilidades {
      *
      * @return Map com as configurações
      */
-    public static Map<String, String> getConfiguration() {
-        Map<String, String> map = new HashMap();
+    public static Configuration getConfiguration() {
         try {
-            String path = FileUtil.getDefaultPath().concat("/configuration.conf");
+            String path = Configuration.getConfigurationFile();
             File file = new File(path);
-            if (!file.exists()) {
-                FileUtil.gravarArquivoConfiguracao(getInitialConfiguration());
-            }
-            IOUtils.readLines(new FileInputStream(file)).forEach(ln -> {
-                String[] itens = ((String) ln).split("::");
-                map.put(itens[0], itens[1]);
-            });
+            if (!file.exists()) FileUtil.gravarArquivoConfiguracao(new Configuration());
+            return new Gson().fromJson(IOUtils.toString(new FileInputStream(file)), Configuration.class);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return map;
-    }
-
-    /**
-     * Configuração inicial do sistema.
-     *
-     * @return Map com a configuração inicial do sistema.
-     */
-    public static Map<String, String> getInitialConfiguration() {
-        Map<String, String> map = new HashMap();
-        map.put("icone", "null");
-        map.put("arquivos", "null");
-        map.put("tempoPagina", "00h00m10s");
-        map.put("tempoArquivo", "00h01m00s");
-        map.put("comprimento", "800");
-        map.put("altura", "600");
-        map.put("loopArquivo", "true");
-        return map;
+        return new Configuration();
     }
 
     /**
@@ -80,12 +57,7 @@ public class Utilidades {
      * @param form JFrame que usará o ícone
      */
     public static void setImageIcon(JFrame form) {
-        try {
-            String path = getConfiguration().get("icone");
-            form.setIconImage(new ImageIcon(path).getImage());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        form.setIconImage(getConfiguration().getIconeSistema());
     }
 
     /**

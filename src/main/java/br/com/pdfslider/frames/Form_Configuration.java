@@ -10,6 +10,7 @@ import br.com.pdfslider.models.Configuration;
 import br.com.pdfslider.util.Utilidades;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,65 +43,37 @@ public final class Form_Configuration extends javax.swing.JFrame {
 
     public Configuration getConfiguration() {
         return Configuration.builder()
-                .altura(getAltura())
-                .comprimento(getComprimento())
-                .icone(getIconeSistema())
-                .arquivos(getPastaArquivos())
-                .tempoArquivo(getTempoArquivo())
-                .tempoPagina(getTempoPagina())
+                .altura("".equals(txtAltura.getText()) ? 800 : Integer.parseInt(txtAltura.getText()))
+                .comprimento("".equals(txtComprimento.getText()) ? 600 : Integer.parseInt(txtComprimento.getText()))
+                .icone(txtIconeSistema.getText())
+                .arquivos(txtPastaArquivo.getText())
+                .tempoArquivo(txtTempoArquivo.getText())
+                .tempoPagina(txtTempoPagina.getText())
+                .loopArquivos(ckLoopArquivo.isSelected())
                 .build();
     }
 
-    private String getAltura() {
-        return txtAltura.getText();
+    public void setConfiguration(Configuration configuration) {
+        txtAltura.setText(configuration.getAltura().toString());
+        txtComprimento.setText(configuration.getComprimento().toString());
+        txtIconeSistema.setText(configuration.getIcone());
+        txtPastaArquivo.setText(configuration.getArquivos());
+        txtTempoArquivo.setText(configuration.getTempoArquivo());
+        txtTempoPagina.setText(configuration.getTempoPagina());
+        ckLoopArquivo.setSelected(configuration.getLoopArquivos());
     }
 
-    private String getComprimento() {
-        return txtComprimento.getText();
+    public void setAlturaComprimento(Dimension dimension) {
+        txtAltura.setText(String.valueOf(dimension.height));
+        txtComprimento.setText(String.valueOf(dimension.width));
     }
 
-    private String getIconeSistema() {
-        return txtIconeSistema.getText();
+    public void setIconeSistema(String iconeSistema) {
+        txtIconeSistema.setText(iconeSistema);
     }
 
-    private String getPastaArquivos() {
-        return txtPastaArquivo.getText();
-    }
-
-    private String getTempoArquivo() {
-        return txtTempoArquivo.getText();
-    }
-
-    private String getTempoPagina() {
-        return txtTempoPagina.getText();
-    }
-
-    public JTextField getTxtAltura() {
-        return txtAltura;
-    }
-
-    public JTextField getTxtComprimento() {
-        return txtComprimento;
-    }
-
-    public JTextField getTxtIconeSistema() {
-        return txtIconeSistema;
-    }
-
-    public JTextField getTxtPastaArquivo() {
-        return txtPastaArquivo;
-    }
-
-    public JTextField getTxtTempoArquivo() {
-        return txtTempoArquivo;
-    }
-
-    public JTextField getTxtTempoPagina() {
-        return txtTempoPagina;
-    }
-
-    public JCheckBox getCkLoopArquivo() {
-        return ckLoopArquivo;
+    public void setPastaArquivos(String pastaArquivos) {
+        txtPastaArquivo.setText(pastaArquivos);
     }
 
     /**

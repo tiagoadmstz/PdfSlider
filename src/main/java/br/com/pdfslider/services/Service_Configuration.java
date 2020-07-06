@@ -7,6 +7,7 @@ package br.com.pdfslider.services;
 
 import br.com.pdfslider.frames.Form_Configuration;
 import br.com.pdfslider.frames.Form_Slider;
+import br.com.pdfslider.models.Configuration;
 import br.com.pdfslider.util.FileUtil;
 import br.com.pdfslider.util.MessageFactory;
 import br.com.pdfslider.util.Utilidades;
@@ -14,8 +15,6 @@ import br.com.pdfslider.util.Utilidades;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Classe de serviço do formulário de configuração
@@ -32,9 +31,7 @@ public class Service_Configuration {
      * @param form Form_Configuration
      */
     public void getDefaultScreenSize(Form_Configuration form) {
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        form.getTxtAltura().setText(String.valueOf(d.height));
-        form.getTxtComprimento().setText(String.valueOf(d.width));
+        form.setAlturaComprimento(Toolkit.getDefaultToolkit().getScreenSize());
     }
 
     /**
@@ -44,14 +41,7 @@ public class Service_Configuration {
      * @param form Form_Configuration
      */
     public void setDados(Form_Configuration form) {
-        Map<String, String> map = Utilidades.getConfiguration();
-        form.getTxtAltura().setText(map.get("altura"));
-        form.getTxtComprimento().setText(map.get("comprimento"));
-        form.getTxtIconeSistema().setText(map.get("icone"));
-        form.getTxtPastaArquivo().setText(map.get("arquivos"));
-        form.getTxtTempoArquivo().setText(map.get("tempoArquivo"));
-        form.getTxtTempoPagina().setText(map.get("tempoPagina"));
-        form.getCkLoopArquivo().setSelected(Boolean.valueOf(map.get("loopArquivo")));
+        form.setConfiguration(Utilidades.getConfiguration());
     }
 
     /**
@@ -60,19 +50,7 @@ public class Service_Configuration {
      * @param form Form_Configuration
      */
     private void gravarDados(Form_Configuration form) {
-        Map<String, String> map = new HashMap();
-        map.put("altura", form.getTxtAltura().getText());
-        map.put("comprimento", form.getTxtComprimento().getText());
-        map.put("icone", form.getTxtIconeSistema().getText());
-        map.put("arquivos", form.getTxtPastaArquivo().getText());
-        map.put("tempoArquivo", form.getTxtTempoArquivo().getText());
-        map.put("tempoPagina", form.getTxtTempoPagina().getText());
-        map.put("loopArquivo", String.valueOf(form.getCkLoopArquivo().isSelected()));
-        try {
-            FileUtil.gravarArquivoConfiguracao(map);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        FileUtil.gravarArquivoConfiguracao(form.getConfiguration());
     }
 
     /**
@@ -95,9 +73,9 @@ public class Service_Configuration {
      * Cria o arquivo de configuração caso o mesmo não exista
      */
     public void criarArquivoConfiguracao() {
-        File f = new File(FileUtil.getDefaultPath().concat("/configuration.conf"));
+        File f = new File(Configuration.getConfigurationFile());
         if (!f.exists()) {
-            FileUtil.gravarArquivoConfiguracao(Utilidades.getInitialConfiguration());
+            FileUtil.gravarArquivoConfiguracao(new Configuration());
         }
     }
 
@@ -109,7 +87,7 @@ public class Service_Configuration {
      */
     public void selecionarIcone(Form_Configuration form) {
         try {
-            form.getTxtIconeSistema().setText(Utilidades.selecionadorArquivos(form, "Selecionar ícone", JFileChooser.FILES_ONLY, "jpg", "jpeg", "gif"));
+            form.setIconeSistema(Utilidades.selecionadorArquivos(form, "Selecionar ícone", JFileChooser.FILES_ONLY, "jpg", "jpeg", "gif"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -123,7 +101,7 @@ public class Service_Configuration {
      */
     public void selecionarPastaArquivos(Form_Configuration form) {
         try {
-            form.getTxtPastaArquivo().setText(Utilidades.selecionadorArquivos(form, "Selecionar", JFileChooser.FILES_AND_DIRECTORIES, "pdf"));
+            form.setPastaArquivos(Utilidades.selecionadorArquivos(form, "Selecionar", JFileChooser.FILES_AND_DIRECTORIES, "pdf"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
