@@ -19,3 +19,13 @@ O arquivo de configuração deve ficar dentro da pasta do sistema no diretório 
 ```
 
 Caso o diretório ou arquivo não existam o sistema os criará usando padrãos internos.
+
+![configurationFrame](https://github.com/tiagoadmstz/PdfSlider/blob/master/configurationFrame.jpg)
+
+Após fazer as configurações e confirmar o sistema salva as configurações no arquivo e abre a dela de apresentação. Os arquivos podem ser trocados com o programa em execução e dependendo do tamanho do arquivo pode demorar alguns segundos para mostrar a primeira página.
+
+![slider1](https://github.com/tiagoadmstz/PdfSlider/blob/master/slider1.jpg)
+
+Pode-se também parar a apresentação e mudar manualmente. O controle podem ser tirado da tela e fechado para mostrar somente o conteúdo das páginas.
+
+![slider2](https://github.com/tiagoadmstz/PdfSlider/blob/master/slider2.jpg)
