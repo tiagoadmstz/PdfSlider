@@ -9,6 +9,7 @@ import br.com.pdfslider.frames.Form_Slider;
 import br.com.pdfslider.interfaces.ListenerAdapter;
 import br.com.pdfslider.services.Service_Slider;
 import br.com.pdfslider.util.Utilidades;
+
 import java.awt.event.ActionEvent;
 
 public final class Listener_Slider extends ListenerAdapter<Form_Slider> {
@@ -26,7 +27,7 @@ public final class Listener_Slider extends ListenerAdapter<Form_Slider> {
         super.initComponents();
         //service.mostrarArquivo(form.getLbPage(), service.getFiles(), Utilidades.getConfiguration().get("loopArquivo"));
         //service.mostrarPaginas(form.getLbPage(), service.getFiles(), Utilidades.getConfiguration().get("loopArquivo"));
-        service.iniciarSistema(form.getLbPage(), form.getLbPaginas(), service.getFiles(), Utilidades.getConfiguration().get("loopArquivo"));
+        service.iniciarSistema(form.getLbPage(), form.getLbPaginas(), service.getFiles(), Utilidades.getConfiguration().getLoopArquivos());
         form.getBtPausar().addActionListener(this);
         form.getBtAnvacar().addActionListener(this);
         form.getBtVoltar().addActionListener(this);

@@ -5,6 +5,7 @@
  */
 package br.com.pdfslider.services;
 
+import br.com.pdfslider.models.Configuration;
 import br.com.pdfslider.util.PdfFilter;
 import br.com.pdfslider.util.TimeUtil;
 import br.com.pdfslider.util.Utilidades;
@@ -44,7 +45,7 @@ public final class Service_Slider {
     public List<String> getFiles() {
         List<String> lista = new ArrayList();
         try {
-            File dir = new File(Utilidades.getConfiguration().get("arquivos"));
+            File dir = Utilidades.getConfiguration().getDiretorioArquivos();
             if (dir.isDirectory()) {
                 Arrays.asList(dir.listFiles(new PdfFilter())).forEach(f -> lista.add(f.getPath()));
             } else {
@@ -56,7 +57,7 @@ public final class Service_Slider {
         return lista;
     }
 
-    public void iniciarSistema(JLabel viewer, JLabel lbPaginas, List<String> paths, String loopArquivo) {
+    public void iniciarSistema(JLabel viewer, JLabel lbPaginas, List<String> paths, boolean loopArquivo) {
         sistemas.put("mostrarPaginas", mostrarPaginas(viewer, lbPaginas, paths, loopArquivo));
         sistemas.get("mostrarPaginas").start();
     }
@@ -103,12 +104,11 @@ public final class Service_Slider {
         }
     }
 
-    public Thread mostrarPaginas(JLabel viewer, JLabel lbPaginas, List<String> paths, String loopArquivo) {
+    public Thread mostrarPaginas(JLabel viewer, JLabel lbPaginas, List<String> paths, boolean loopArquivo) {
         return new Thread(new Runnable() {
             @Override
             public void run() {
-                boolean continuar = Boolean.valueOf(loopArquivo);
-                Thread t = passarArquivo(viewer, lbPaginas, paths, TimeUtil.stringToMillis(Utilidades.getConfiguration().get("tempoArquivo")), continuar);
+                Thread t = passarArquivo(viewer, lbPaginas, paths, Utilidades.getConfiguration().tempoArquivoToMillis(), loopArquivo);
                 sistemas.put("passarArquivo", t);
                 t.start();
             }
@@ -139,7 +139,7 @@ public final class Service_Slider {
             paginas.clear();
             paginas.addAll(pdfPagesToImages(path));
             setLbPaginas(lbPaginas, "0", String.valueOf(paginas.size()));
-            Thread t = passarPagina(label, lbPaginas, paginas, TimeUtil.stringToMillis(Utilidades.getConfiguration().get("tempoPagina")));
+            Thread t = passarPagina(label, lbPaginas, paginas, Utilidades.getConfiguration().tempoPaginaToMillis());
             sistemas.put("passarPaginas", t);
             t.start();
             Thread.sleep(tempoArquivo);
@@ -194,9 +194,9 @@ public final class Service_Slider {
                         List<ImageIcon> paginas = pdfPagesToImages(path);
                         try {
                             //pega o tempo que a página ficará em exibição
-                            long tempoPagina = TimeUtil.stringToMillis(Utilidades.getConfiguration().get("tempoPagina"));
+                            long tempoPagina = Utilidades.getConfiguration().tempoPaginaToMillis();
                             //inicia o cronômetro para encerrar a exibição do arquivo
-                            TimeUtil.stopService(TimeUtil.stringToMillis(Utilidades.getConfiguration().get("tempoArquivo")), Service_Slider.this);
+                            TimeUtil.stopService(Utilidades.getConfiguration().tempoArquivoToMillis(), Service_Slider.this);
                             //inicia loop de exibição das páginas
                             while (!stop) {
                                 for (ImageIcon pg : paginas) {
@@ -244,9 +244,9 @@ public final class Service_Slider {
             for (PDPage pg : document.getPages()) {
                 BufferedImage bff = pdfRenderer.renderImageWithDPI(pageCounter++, 200, ImageType.RGB);
                 Image img = Toolkit.getDefaultToolkit().createImage(bff.getSource());
-                Map<String, String> map = Utilidades.getConfiguration();
-                lista.add(new ImageIcon(img.getScaledInstance(Integer.valueOf(map.get("comprimento")),
-                        Integer.valueOf(map.get("altura")), Image.SCALE_DEFAULT)));
+                Configuration configuration = Utilidades.getConfiguration();
+                lista.add(new ImageIcon(img.getScaledInstance(configuration.getComprimento(),
+                        configuration.getAltura(), Image.SCALE_DEFAULT)));
             }
             document.close();
         } catch (Exception ex) {
