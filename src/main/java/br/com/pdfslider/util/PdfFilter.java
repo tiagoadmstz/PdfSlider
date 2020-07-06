@@ -15,7 +15,8 @@ public class PdfFilter implements FilenameFilter {
 
     @Override
     public boolean accept(File dir, String name) {
-        return name.toLowerCase().endsWith("pdf");
+        return name.toLowerCase().endsWith("pdf")
+                || name.toLowerCase().endsWith("PDF");
     }
 
 }
