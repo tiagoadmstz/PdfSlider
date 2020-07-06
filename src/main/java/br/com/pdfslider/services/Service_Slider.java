@@ -10,6 +10,8 @@ import br.com.pdfslider.util.TimeUtil;
 import br.com.pdfslider.util.Utilidades;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.rendering.ImageType;
+import org.apache.pdfbox.rendering.PDFRenderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -236,10 +238,11 @@ public final class Service_Slider {
         List<ImageIcon> lista = new ArrayList();
         try {
             File f = new File(pdfPath);
+            int pageCounter = 0;
             PDDocument document = PDDocument.load(f);
-            List<PDPage> pages = document.getDocumentCatalog().getAllPages();
-            for (PDPage pg : pages) {
-                BufferedImage bff = pg.convertToImage(BufferedImage.TYPE_INT_RGB, 300);
+            PDFRenderer pdfRenderer = new PDFRenderer(document);
+            for (PDPage pg : document.getPages()) {
+                BufferedImage bff = pdfRenderer.renderImageWithDPI(pageCounter++, 200, ImageType.RGB);
                 Image img = Toolkit.getDefaultToolkit().createImage(bff.getSource());
                 Map<String, String> map = Utilidades.getConfiguration();
                 lista.add(new ImageIcon(img.getScaledInstance(Integer.valueOf(map.get("comprimento")),
