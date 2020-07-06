@@ -8,24 +8,18 @@ package br.com.pdfslider.services;
 import br.com.pdfslider.util.PdfFilter;
 import br.com.pdfslider.util.TimeUtil;
 import br.com.pdfslider.util.Utilidades;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.List;
+import java.util.*;
+
 /**
  * Classe de serivço do formulário de exibição
- *
  */
 public final class Service_Slider {
 
@@ -180,8 +174,8 @@ public final class Service_Slider {
     /**
      * Faz a apresentação do arquivo no formulário página a página
      *
-     * @param viewer JLabel onde a página será visualizada
-     * @param paths List com paths dos arquivos
+     * @param viewer      JLabel onde a página será visualizada
+     * @param paths       List com paths dos arquivos
      * @param loopArquivo
      * @return
      */

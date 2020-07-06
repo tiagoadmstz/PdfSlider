@@ -10,16 +10,15 @@ import br.com.pdfslider.frames.Form_Slider;
 import br.com.pdfslider.util.FileUtil;
 import br.com.pdfslider.util.MessageFactory;
 import br.com.pdfslider.util.Utilidades;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.JFileChooser;
 
 /**
  * Classe de serviço do formulário de configuração
- *
  */
 public class Service_Configuration {
 
@@ -94,7 +93,6 @@ public class Service_Configuration {
 
     /**
      * Cria o arquivo de configuração caso o mesmo não exista
-     *
      */
     public void criarArquivoConfiguracao() {
         File f = new File(FileUtil.getDefaultPath().concat("/configuration.conf"));

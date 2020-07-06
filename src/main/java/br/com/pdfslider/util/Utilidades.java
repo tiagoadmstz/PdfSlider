@@ -6,20 +6,18 @@
 package br.com.pdfslider.util;
 
 import br.com.pdfslider.enumerated.LOOKANDFEEL;
-import java.awt.Component;
+import org.apache.commons.io.IOUtils;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.File;
-import java.nio.file.Files;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Classe que contém métodos utilizados por todo sistema
- *
  */
 public class Utilidades {
 
@@ -49,8 +47,8 @@ public class Utilidades {
             if (!file.exists()) {
                 FileUtil.gravarArquivoConfiguracao(getInitialConfiguration());
             }
-            Files.readAllLines(file.toPath()).forEach(ln -> {
-                String[] itens = ln.split("::");
+            IOUtils.readLines(new FileInputStream(file)).forEach(ln -> {
+                String[] itens = ((String) ln).split("::");
                 map.put(itens[0], itens[1]);
             });
         } catch (Exception ex) {
@@ -93,10 +91,10 @@ public class Utilidades {
     /**
      * Abre um selecionador de arquivos padrão para o usuário.
      *
-     * @param form Component que está utilizando o selecionador
+     * @param form    Component que está utilizando o selecionador
      * @param legenda Legenda do selecionador
-     * @param mode Modo de seleção de arquivo
-     * @param filtro Extensões dos arquivos que serão exibidos Ex("txt", "pdf")
+     * @param mode    Modo de seleção de arquivo
+     * @param filtro  Extensões dos arquivos que serão exibidos Ex("txt", "pdf")
      * @return
      */
     public static String selecionadorArquivos(Component form, String legenda, int mode, String... filtro) {
