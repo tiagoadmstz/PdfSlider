@@ -3,7 +3,7 @@
 # PdfSlider
 Sistema que transforma um arquivo pdf em uma apresentação de slides que pode ser programada para trocar de arquivo e passar as páginas de tempo em tempo.
 
-#Arquivo de Configuração
+# Arquivo de Configuração
 O arquivo de configuração deve ficar dentro da pasta do sistema no diretório "conf" com o seguinte formato:
 
 ```
