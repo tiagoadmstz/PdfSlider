@@ -50,6 +50,7 @@ public final class Form_Configuration extends javax.swing.JFrame {
                 .tempoArquivo(txtTempoArquivo.getText())
                 .tempoPagina(txtTempoPagina.getText())
                 .loopArquivos(ckLoopArquivo.isSelected())
+                .dpi(Utilidades.getConfiguration().getDpi())
                 .build();
     }
 
