@@ -30,6 +30,9 @@ public class Configuration implements Serializable {
     private Integer altura = 600;
     @SerializedName("loop-arquivos")
     private Boolean loopArquivos = true;
+    @Builder.Default
+    @SerializedName("image-dpi")
+    private Integer dpi = 300;
     @Expose(serialize = false, deserialize = false)
     private static final String configurationFile = "/conf/configuration.json";
     @Expose(serialize = false, deserialize = false)

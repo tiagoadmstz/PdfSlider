@@ -242,7 +242,7 @@ public final class Service_Slider {
             PDDocument document = PDDocument.load(f);
             PDFRenderer pdfRenderer = new PDFRenderer(document);
             for (PDPage pg : document.getPages()) {
-                BufferedImage bff = pdfRenderer.renderImageWithDPI(pageCounter++, 200, ImageType.RGB);
+                BufferedImage bff = pdfRenderer.renderImageWithDPI(pageCounter++, Utilidades.getConfiguration().getDpi(), ImageType.RGB);
                 Image img = Toolkit.getDefaultToolkit().createImage(bff.getSource());
                 Configuration configuration = Utilidades.getConfiguration();
                 lista.add(new ImageIcon(img.getScaledInstance(configuration.getComprimento(),
