@@ -1,6 +1,7 @@
 [![Build_Status](https://travis-ci.org/tiagoadmstz/PdfSlider.svg?branch=master)](https://travis-ci.org/tiagoadmstz/PdfSlider)
 
 # PdfSlider
+## latest release: v1.0.1
 Sistema que transforma um arquivo pdf em uma apresentação de slides que pode ser programada para trocar de arquivo e passar as páginas de tempo em tempo.
 
 # Arquivo de Configuração
@@ -14,7 +15,8 @@ O arquivo de configuração deve ficar dentro da pasta do sistema no diretório 
   "tempo-arquivo": "00h01m00s",
   "comprimento": 800,
   "altura": 600,
-  "loop-arquivos": true
+  "loop-arquivos": true,
+  "image-dpi": 100
 }
 ```
 
